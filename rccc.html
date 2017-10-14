@@ -287,6 +287,21 @@
         font-size: 12px;
         display: block;
       }
+
+      #footer {
+        font-size: 10px;
+        color: #333;
+        margin-top: 30px;
+      }
+
+      #footer a {
+        color: #888;
+        text-decoration: none;
+      }
+
+      #footer a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
 
@@ -344,6 +359,10 @@
       &middot; <label for="playsounds"><input type="checkbox" id="playsounds" checked=checked> Play sounds</label><br>
       &middot;  Wait <input type="text" value="2" maxlength=3 id="waittime" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57"> seconds before resetting game<br>
       &middot;  <button id="reset">Reset</button> high score
+    </div>
+
+    <div id="footer">
+      <a href="https://github.com/sdmtr/Resistor-Colour-Code-Challenge">Source on Github</a> | <a href="https://github.com/sdmtr">Other stuff on Github</a>
     </div>
 
     <script>
