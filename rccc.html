@@ -1,0 +1,492 @@
+<!doctype html>
+
+  <head>
+    <style>
+      body {
+        text-align: center;
+        margin-top: 50px;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+      }
+
+      #resistor {
+        margin: 0 auto;
+        width: 340px;
+        height: 100px;
+        background-color: #f3da7b;
+        position: relative;
+      }
+
+      #resistor::before {
+        content: "";
+        background-color: #f3da7b;
+        height: 120px;
+        width: 100px;
+        float: left;
+        border-radius: 20px;
+        top: -10px;
+        left: -20px;
+        position: relative;
+      }
+
+      #resistor::after {
+        content: "";
+        background-color: #f3da7b;
+        height: 120px;
+        width: 100px;
+        float: right;
+        border-radius: 20px;
+        top: -10px;
+        right: -20px;
+        position: relative;
+      }
+
+      #resistor .band {
+        position: absolute;
+        height: 100px;
+        width: 20px;
+        background-color: black;
+        z-index: 999;
+      }
+
+      #resistor #band-1 {
+        left: 40px;
+        height: 120px;
+        top: -10px;
+      }
+
+      #resistor #band-2 {
+        left: 100px;
+      }
+
+      #resistor #band-3 {
+        left: 160px;
+      }
+
+      #resistor #band-4 {
+        left: 220px;
+      }
+
+      #resistor #band-5 {
+        left: 280px;
+        height: 120px;
+        top: -10px;
+        background-color: gold;
+        background: linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+        background: -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+        background: -moz-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+        background: -o-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+      }
+
+      #resistor #legs {
+        position: absolute;
+        width: 500px;
+        left: -80px;
+        top: 40px;
+        height: 20px;
+        background-color: lightgrey;
+        z-index: -1;
+      }
+
+      #answer {
+        margin-top: 60px;
+      }
+
+      #answer .digit.correct {
+        border-color: #25c125;
+      }
+
+      #answer .digit.incorrect {
+        border-color: #e80606;
+      }
+
+      #answer .digit, #answer #result {
+        border: 1px solid #ccc;
+        width: 50px;
+        height: 50px;
+        border-radius: 4px;
+        margin-right: 10px;
+        padding: 0;
+        text-align: center;
+        font-size: 20px;
+      }
+
+      #answer #result {
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        background-color: #ddd;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        top: -13px;
+        font-family: "Times", "Times New Roman", "serif", "sans-serif", "EmojiSymbols"
+      }
+
+      #answer #result.incorrect {
+        background-color: #e80606;
+        border-color: #e80606;
+      }
+
+      #answer #result.correct {
+        background-color: #25c125;
+        border-color: #25c125;
+      }
+
+      #answer #result.correct::before {
+        content: "✔";
+        color: white;
+        font-size: 25px;
+        position: absolute;
+        top: 9px;
+        left: 14px;
+      }
+
+      #answer #result.incorrect::before {
+        content: "✕";
+        color: white;
+        font-size: 25px;
+        position: absolute;
+        top: 9px;
+        left: 14px;
+      }
+
+      #controls {
+        margin-top: 30px;
+      }
+
+      #cheatsheet {
+        margin-top: 30px;
+        display: none;
+      }
+
+      #cheatsheet table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        margin: 0 auto;
+      }
+
+      #cheatsheet table td {
+        padding: 5px;
+        text-align: center;
+        border: 1px solid #333;
+      }
+
+      #cheatsheet table tbody tr td.irrelevant {
+        background: repeating-linear-gradient(
+          45deg,
+          #ffcccc,
+          #ffcccc 10px,
+          #ffffff 10px,
+          #ffffff 20px
+        );
+      }
+
+      #cheatsheet table tbody tr:nth-child(1) {
+        background-color: black;
+        color: white;
+      }
+
+      #cheatsheet table tbody tr:nth-child(1) td {
+        border-color: black;
+      }
+
+      #cheatsheet table tbody tr:nth-child(2) {
+        background-color: saddlebrown;
+        color: white;
+      }
+
+      #cheatsheet table tbody tr:nth-child(3) {
+        background-color: red;
+      }
+
+      #cheatsheet table tbody tr:nth-child(4) {
+        background-color: orange;
+      }
+
+      #cheatsheet table tbody tr:nth-child(5) {
+        background-color: yellow;
+      }
+
+      #cheatsheet table tbody tr:nth-child(6) {
+        background-color: green;
+      }
+
+      #cheatsheet table tbody tr:nth-child(7) {
+        background-color: blue;
+        color: white;
+      }
+
+      #cheatsheet table tbody tr:nth-child(8) {
+        background-color: violet;
+      }
+
+      #cheatsheet table tbody tr:nth-child(9) {
+        background-color: grey;
+      }
+
+      #cheatsheet table tbody tr:nth-child(11) {
+        background-color: gold;
+        background: linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+        background: -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+        background: -moz-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+        background: -o-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+      }
+
+      #cheatsheet table tbody tr:nth-child(12) {
+        background-color: gold;
+        background: linear-gradient(top, rgba(213,213,213,1) 0%, rgba(213,213,213,1) 26%, rgba(226,226,226,1) 35%, rgba(163,163,163,1) 45%, rgba(145,145,145,1) 61%, rgba(213,213,213,1) 100%);
+        background: -webkit-linear-gradient(top, rgba(213,213,213,1) 0%, rgba(213,213,213,1) 26%, rgba(226,226,226,1) 35%, rgba(163,163,163,1) 45%, rgba(145,145,145,1) 61%, rgba(213,213,213,1) 100%);
+        background: -moz-linear-gradient(top, rgba(213,213,213,1) 0%, rgba(213,213,213,1) 26%, rgba(226,226,226,1) 35%, rgba(163,163,163,1) 45%, rgba(145,145,145,1) 61%, rgba(213,213,213,1) 100%);
+        background: -o-linear-gradient(top, rgba(213,213,213,1) 0%, rgba(213,213,213,1) 26%, rgba(226,226,226,1) 35%, rgba(163,163,163,1) 45%, rgba(145,145,145,1) 61%, rgba(213,213,213,1) 100%);
+      }
+
+      #settings {
+        margin: 0 auto;
+        margin-top: 30px;
+        display: none;
+        text-align: left;
+      }
+
+      #settings #waittime {
+        width: 30px;
+        text-align: center;
+      }
+
+      #scoreboard {
+        margin: 0 auto;
+        margin-top: 30px;
+      }
+
+      #scoreboard #score {
+        display: inline-block;
+        padding: 10px;
+        margin-right: 20px;
+        background-color: #efefef;
+        font-size: 32px;
+        min-width: 50px;
+      }
+
+      #scoreboard #score::before {
+        content: "SCORE";
+        font-weight: bold;
+        font-size: 12px;
+        display: block;
+      }
+
+      #scoreboard #high {
+        display: inline-block;
+        padding: 10px;
+        background-color: #efefef;
+        font-size: 32px;
+        min-width: 50px;
+      }
+
+      #scoreboard #high::before {
+        content: "HIGH";
+        font-weight: bold;
+        font-size: 12px;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <html>
+
+    <div id="resistor">
+      <div id="legs"></div>
+      <div class="band" id="band-1"></div>
+      <div class="band" id="band-2"></div>
+      <div class="band" id="band-3"></div>
+      <div class="band" id="band-4"></div>
+      <div class="band" id="band-5"></div>
+    </div>
+
+    <div id="answer">
+      <input type="text" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="1" id="digit-1"><input type="text" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="2" id="digit-2"><input type="text" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="3" id="digit-3"><input type="text" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="4" id="digit-4"><div id="result">&nbsp;</div>
+    </div>
+
+    <div id="scoreboard">
+      <div id="score">
+        <span id="scorespan">0</span>
+      </div>
+
+      <div id="high">
+        <span id="highspan">0</span>
+      </div>
+      
+    </div>
+
+    <div id="controls">
+      <button id="toggle-cheats">Cheat Sheet</button> <button id="toggle-settings">Settings</button>
+    </div>
+
+    <div id="cheatsheet">
+      <table>
+        <thead><tr><td>Color</td><td>1st Band</td><td>2nd Band</td><td>3rd Band</td><td>Multiplier</td><td>Tolerance</td></tr></thead>
+        <tbody>
+          <tr><td>Black</td><td>0</td><td>0</td><td>0</td><td>1Ω</td><td class="irrelevant"></td></tr>
+          <tr><td>Brown</td><td>1</td><td>1</td><td>1</td><td>10Ω</td><td>± 1% (F)</td></tr>
+          <tr><td>Red</td><td>2</td><td>2</td><td>2</td><td>100Ω</td><td>± 2% (G)</td></tr>
+          <tr><td>Orange</td><td>3</td><td>3</td><td>3</td><td>1kΩ</td><td class="irrelevant"></td></tr>
+          <tr><td>Yellow</td><td>4</td><td>4</td><td>4</td><td>10kΩ</td><td class="irrelevant"></td></tr>
+          <tr><td>Green</td><td>5</td><td>5</td><td>5</td><td>100kΩ</td><td>± 0.5% (D)</td></tr>
+          <tr><td>Blue</td><td>6</td><td>6</td><td>6</td><td>1MΩ</td><td>± 0.25% (C)</td></tr>
+          <tr><td>Violet</td><td>7</td><td>7</td><td>7</td><td>10MΩ</td><td>± 0.10% (B)</td></tr>
+          <tr><td>Grey</td><td>8</td><td>8</td><td>8</td><td class="irrelevant"></td><td>± 0.05%</td></tr>
+          <tr><td>White</td><td>9</td><td>9</td><td>9</td><td class="irrelevant"></td><td class="irrelevant"></td></tr>
+          <tr><td>Gold</td><td class="irrelevant"></td><td class="irrelevant"></td><td class="irrelevant"></td><td>0.1Ω</td><td>± 5% (J)</td></tr>
+          <tr><td>Silver</td><td class="irrelevant"></td><td class="irrelevant"></td><td class="irrelevant"></td><td>0.01Ω</td><td>± 10% (K)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="settings">
+      &middot; <label for="playsounds"><input type="checkbox" id="playsounds" checked=checked> Play sounds</label><br>
+      &middot;  Wait <input type="text" value="2" maxlength=3 id="waittime" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57"> seconds before resetting game<br>
+      &middot;  <button id="reset">Reset</button> high score
+    </div>
+
+    <script>
+      (function() {
+        var $ = function(id) { return document.getElementById(id); };
+        var waittime = (window.localStorage.getItem('waittime') === null) ? 2 : window.localStorage.getItem('waittime');
+        $('waittime').value = waittime;
+
+        var sounds = (window.localStorage.getItem('sounds') === "false") ? false : true;
+        $('playsounds').checked = sounds;
+
+        var score = 0, streak = 0;
+        var high = window.localStorage.getItem('high') || 0;
+        $('highspan').innerText = high;
+
+        var colors = ['black', 'saddlebrown', 'red', 'orange', 'yellow', 'green', 'blue', 'violet', 'grey', 'white', 'gold', 'silver'];
+        var series = [1.0, 1.2, 1.5, 1.8, 2.2, 2.7, 3.3, 3.9, 4.7, 5.6, 6.8, 8.2, 10.0]; // E12 series
+        var band1, band2, band3, band4;
+        
+        var digits = document.getElementsByClassName('digit');
+
+        var handleInput = function(e) {
+          var digit = this.getAttribute("data-digit");
+          var value = this.value;
+          if ((e.keyCode >= 48 && e.keyCode <= 57) && (digit < 4) && value) digits[digit].focus();
+
+          if ((digit == 4) && value) {
+            document.activeElement.blur();
+            if ($('digit-1').value == band1) $('digit-1').className += " correct";
+            else $('digit-1').className += " incorrect";
+            if ($('digit-2').value == band2) $('digit-2').className += " correct";
+            else $('digit-2').className += " incorrect";
+            if ($('digit-3').value == band3) $('digit-3').className += " correct";
+            else $('digit-3').className += " incorrect";
+            if ($('digit-4').value == band4) $('digit-4').className += " correct";
+            else $('digit-4').className += " incorrect";
+
+            if (document.getElementsByClassName('incorrect').length) {
+              $('result').className += " incorrect";
+              if (sounds) {
+                note(249,100,'triangle');
+                note(209,100,'triangle');
+              }
+              streak = 0;
+              score = 0;
+            } else {
+              $('result').className += " correct";
+              if (sounds) {
+                note(987,100,'sine');
+                note(1245,100,'sine');
+              }
+              score++;
+              streak++
+              if (streak > high) high = streak;
+              window.localStorage.setItem('high', high);
+            }
+            setTimeout(function() { reset(); }, waittime * 1000);
+            $('scorespan').innerText = score;
+            $('highspan').innerText = high;
+          }
+        };
+
+        for (var i=0; i<digits.length; i++) {
+          digits[i].addEventListener('keyup', handleInput, false);
+          digits[i].addEventListener('keydown', function (e) {
+            // prevent tabbing out of the input (but not shift-tabbing) if the input is empty
+            var isShift = !!window.event.shiftKey;
+            var value = this.value;
+            if (e.which == 9 && !isShift && !value) e.preventDefault();
+          });
+        }
+
+        $('toggle-cheats').addEventListener('click', function() {
+          $('cheatsheet').style.display = ($('cheatsheet').style.display == 'block') ? 'none' : 'block';
+          $('settings').style.display = 'none';
+        }, false);
+
+        $('toggle-settings').addEventListener('click', function() {
+          $('settings').style.display = ($('settings').style.display == 'inline-block') ? 'none' : 'inline-block';
+          $('cheatsheet').style.display = 'none';
+        }, false);
+
+        $('playsounds').addEventListener('change', function() {
+          sounds = this.checked;
+          window.localStorage.setItem('sounds', this.checked);
+        }, false); 
+
+        $('waittime').addEventListener('blur', function() {
+          waittime = parseInt(this.value);
+          window.localStorage.setItem('waittime', waittime);
+        }, false);
+
+        $('reset').addEventListener('click', function() {
+          high = 0;
+          window.localStorage.setItem('high', 0);
+          $('highspan').innerText = high;
+        }, false);
+
+        // let's do this thing
+        generateCode();
+
+        function reset() {
+          for (var i=0; i<digits.length; i++) {
+            digits[i].className="digit";
+            digits[i].value = '';
+          }
+          $('result').className = "";
+          generateCode();
+        }
+
+        function generateCode() {
+          var power = Math.round(Math.random()*5) + 2;
+          var value = Math.round(series[Math.floor(Math.random()*series.length)] * Math.pow(10, power));
+
+          band1 = +(''+value)[0];
+          band2 = +(''+value)[1];
+          band3 = +(''+value)[2];
+          band4 = power - 2;
+
+          $('band-1').style.backgroundColor = colors[band1];
+          $('band-2').style.backgroundColor = colors[band2];
+          $('band-3').style.backgroundColor = colors[band3];
+          $('band-4').style.backgroundColor = colors[band4];
+          //console.log(value, band1, band2, band3, band4);
+
+          $('digit-1').focus();
+        }
+
+        var audio = new (window.AudioContext || window.webkitAudioContext)();
+        function note(f, d, w) {
+          var oscillator = audio.createOscillator();
+          var gain = audio.createGain();
+          gain.gain.value = 0.1;
+          oscillator.connect(gain);
+          gain.connect(audio.destination);
+          oscillator.type = w;
+          oscillator.frequency.value = f;
+          oscillator.start();
+          setTimeout(function() { oscillator.stop(); }, d);
+        }
+      })();
+    </script>
+
+  </html>
+
+</html>
