@@ -1,7 +1,7 @@
 <!doctype html>
 
   <head>
-  
+
     <title>Resistor Colour Code Challenge</title>
 
     <style>
@@ -9,6 +9,15 @@
         text-align: center;
         margin-top: 50px;
         font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+      }
+
+      input[type='number'] {
+        -moz-appearance:textfield;
+      }
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
       }
 
       #resistor {
@@ -236,7 +245,7 @@
       }
 
       #cheatsheet table tbody tr:nth-child(12) {
-        background-color: gold;
+        background-color: silver;
         background: linear-gradient(top, rgba(213,213,213,1) 0%, rgba(213,213,213,1) 26%, rgba(226,226,226,1) 35%, rgba(163,163,163,1) 45%, rgba(145,145,145,1) 61%, rgba(213,213,213,1) 100%);
         background: -webkit-linear-gradient(top, rgba(213,213,213,1) 0%, rgba(213,213,213,1) 26%, rgba(226,226,226,1) 35%, rgba(163,163,163,1) 45%, rgba(145,145,145,1) 61%, rgba(213,213,213,1) 100%);
         background: -moz-linear-gradient(top, rgba(213,213,213,1) 0%, rgba(213,213,213,1) 26%, rgba(226,226,226,1) 35%, rgba(163,163,163,1) 45%, rgba(145,145,145,1) 61%, rgba(213,213,213,1) 100%);
@@ -320,7 +329,7 @@
     </div>
 
     <div id="answer">
-      <input type="text" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="1" id="digit-1"><input type="text" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="2" id="digit-2"><input type="text" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="3" id="digit-3"><input type="text" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="4" id="digit-4"><div id="result">&nbsp;</div>
+      <input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="1" id="digit-1"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="2" id="digit-2"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="3" id="digit-3"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="4" id="digit-4"><div id="result">&nbsp;</div>
     </div>
 
     <div id="scoreboard">
