@@ -550,7 +550,7 @@
         function formatResistance(value, precision) {
           if (value == 0) return "0Ω";
           var divisions = 1000;
-          var precision = precision || 1;
+          var precision = precision || 2;
           var units = ["","k","M"];
           var f = Math.floor(Math.log(value)/Math.log(divisions));
           return parseFloat((value / Math.pow(divisions,f)).toFixed(precision)) + units[f] + "Ω";
