@@ -7,6 +7,10 @@
     <title>Resistor Colour Code Challenge</title>
 
     <style>
+      * {
+        transition: background-color .2s ease-in, border-color .2s ease-in;
+      }
+
       body {
         text-align: center;
         margin-top: 50px;
@@ -99,6 +103,23 @@
         height: 20px;
         background-color: lightgrey;
         z-index: -1;
+      }
+
+      #resistor #value {
+        position: absolute;
+        width: 100%;
+        z-index: 99999;
+        font-size: 36px;
+        top: 108px;
+        display: none;
+      }
+
+      #resistor #value.correct {
+        color: #25c125;
+      }
+
+      #resistor #value.incorrect {
+        color: #e80606;
       }
 
       #answer {
@@ -328,10 +349,11 @@
       <div class="band" id="band-3"></div>
       <div class="band" id="band-4"></div>
       <div class="band" id="band-5"></div>
+      <div id="value"></div>
     </div>
 
     <div id="answer">
-      <input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="1" id="digit-1"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="2" id="digit-2"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="3" id="digit-3"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength=1 class="digit" data-digit="4" id="digit-4"><div id="result">&nbsp;</div>
+      <input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="digit" data-digit="1" id="digit-1"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="digit" data-digit="2" id="digit-2"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="digit" data-digit="3" id="digit-3"><input type="number" onfocus="this.select();" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="digit" data-digit="4" id="digit-4"><div id="result">&nbsp;</div>
     </div>
 
     <div id="scoreboard">
@@ -401,20 +423,17 @@
         var handleInput = function(e) {
           var digit = this.getAttribute("data-digit");
           var value = this.value;
-          if ((e.keyCode >= 48 && e.keyCode <= 57) && (digit < 4) && value) digits[digit].focus();
+          if ((digit < 4) && value) digits[digit].focus();
 
           if ((digit == 4) && value) {
             document.activeElement.blur();
-            if ($('digit-1').value == band1) $('digit-1').className += " correct";
-            else $('digit-1').className += " incorrect";
-            if ($('digit-2').value == band2) $('digit-2').className += " correct";
-            else $('digit-2').className += " incorrect";
-            if ($('digit-3').value == band3) $('digit-3').className += " correct";
-            else $('digit-3').className += " incorrect";
-            if ($('digit-4').value == band4) $('digit-4').className += " correct";
-            else $('digit-4').className += " incorrect";
+            $('digit-1').className += ($('digit-1').value == band1) ? ' correct' : ' incorrect'
+            $('digit-2').className += ($('digit-2').value == band2) ? ' correct' : ' incorrect'
+            $('digit-3').className += ($('digit-3').value == band3) ? ' correct' : ' incorrect'
+            $('digit-4').className += ($('digit-4').value == band4) ? ' correct' : ' incorrect'
 
             if (document.getElementsByClassName('incorrect').length) {
+              $('value').className = 'incorrect';
               $('result').className += " incorrect";
               if (sounds) {
                 note(249,100,'triangle');
@@ -423,6 +442,7 @@
               streak = 0;
               score = 0;
             } else {
+              $('value').className = 'correct';
               $('result').className += " correct";
               if (sounds) {
                 note(987,100,'sine');
@@ -436,11 +456,12 @@
             setTimeout(function() { reset(); }, waittime * 1000);
             $('scorespan').innerText = score;
             $('highspan').innerText = high;
+            $('value').style.display = 'block';
           }
         };
 
         for (var i=0; i<digits.length; i++) {
-          digits[i].addEventListener('keyup', handleInput, false);
+          digits[i].addEventListener('input', handleInput, false);
           digits[i].addEventListener('keydown', function (e) {
             // prevent tabbing out of the input (but not shift-tabbing) if the input is empty
             var isShift = !!window.event.shiftKey;
@@ -500,9 +521,21 @@
           $('band-2').style.backgroundColor = colors[band2];
           $('band-3').style.backgroundColor = colors[band3];
           $('band-4').style.backgroundColor = colors[band4];
-          //console.log(value, band1, band2, band3, band4);
+
+          $('value').style.display = 'none';
+          $('value').className = 'none';
+          $('value').innerText = formatResistance(value);
 
           $('digit-1').focus();
+        }
+
+        function formatResistance(value, precision) {
+          if (value == 0) return "0Ω";
+          var divisions = 1000;
+          var precision = precision || 1;
+          var units = ["","k","M"];
+          var f = Math.floor(Math.log(value)/Math.log(divisions));
+          return parseFloat((value / Math.pow(divisions,f)).toFixed(precision)) + units[f] + "Ω";
         }
 
         var audio = new (window.AudioContext || window.webkitAudioContext)();
