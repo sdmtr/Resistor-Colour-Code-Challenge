@@ -449,6 +449,10 @@
             $('digit-2').className += ($('digit-2').value == band2) ? ' correct' : ' incorrect'
             $('digit-3').className += ($('digit-3').value == band3) ? ' correct' : ' incorrect'
             $('digit-4').className += ($('digit-4').value == band4) ? ' correct' : ' incorrect'
+            $('digit-1').disabled = true;
+            $('digit-2').disabled = true;
+            $('digit-3').disabled = true;
+            $('digit-4').disabled = true;
 
             if (document.getElementsByClassName('incorrect').length) {
               $('value').className = 'incorrect';
@@ -543,6 +547,11 @@
           $('value').style.display = 'none';
           $('value').className = 'none';
           $('value').innerText = formatResistance(value);
+
+          $('digit-1').disabled = false;
+          $('digit-2').disabled = false;
+          $('digit-3').disabled = false;
+          $('digit-4').disabled = false;
 
           $('digit-1').focus();
         }
